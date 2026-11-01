@@ -3,7 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<style>body{margin:0}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<style>body{margin:0}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}.picker{border:1.5px dashed var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.pk-label{margin:0;font-weight:700;font-size:.85rem;color:var(--muted)}
+.slots{display:flex;flex-direction:column;gap:8px}
+.slot{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;border:1.5px solid var(--line);border-radius:12px;background:var(--card);cursor:pointer;font-weight:700;font-variant-numeric:tabular-nums}
+.slot input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.sl-dot{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);flex:none;display:grid;place-items:center}
+.slot input:checked~.sl-dot{background:var(--chip-on);border-color:var(--chip-on)}
+.slot input:checked~.sl-dot::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--chip-on-ink)}
+.slot:has(input:checked){border-color:var(--chip-on)}
+.slot input:focus-visible~.sl-dot{box-shadow:0 0 0 3px var(--focus)}
+.hot{font-style:normal;font-size:.72rem;font-weight:700;color:var(--soft);border:1px solid var(--soft);border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.add-btn{width:100%}
+.picked{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.picked li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-radius:10px;background:var(--field);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+.picked li.empty{background:none;border:0;padding:0;color:var(--muted);font-size:.88rem}
+.picked button{padding:4px 10px;font-size:.82rem;font-weight:500;border-color:var(--line);background:transparent;color:var(--muted);border-radius:8px}
+</style>
 </head>
 <body>
 <title>Cocoon 體驗預約</title>
@@ -92,15 +108,14 @@ button[disabled]{opacity:.6;cursor:wait}
 <header class="band">
   <img class="mark" alt="Cocoon" src="data:image/jpeg;base64,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">
   <h1>身體狀態評估與訓練體驗</h1>
-  <p>Cocoon 繭・女性友善的身體訓練與照護工作室</p>
+  <p>Cocoon 繭・學會好好使用自己的身體</p>
 </header>
 
 <main class="wrap">
   <form class="card" id="form" novalidate>
     <section class="intro" id="intro">
-      <p class="lede">我們關注的不只是運動本身，而是妳每天怎麼使用自己的身體。真正的改變來自於被理解，而不是被要求撐過去。</p>
       <dl class="facts">
-        <div><dt>體驗時間</dt><dd>約 2 小時</dd></div>
+        <div><dt>體驗時間</dt><dd>約 90 分鐘</dd></div>
         <div><dt>體驗費用</dt><dd>NT$1,500</dd></div>
       </dl>
       <ul class="incl">
@@ -109,7 +124,6 @@ button[disabled]{opacity:.6;cursor:wait}
         <li>動作使用方式的調整與修正</li>
         <li>姿勢與疼痛相關的方向說明</li>
       </ul>
-      <p class="small">體驗的目的不是強度或消耗，而是建立清楚、可持續的調整方向。體驗後，妳可以在充分理解建議方向後，再決定是否繼續訓練。</p>
       <p class="small">填寫約 2 分鐘，教練會依內容事先準備。</p>
     </section>
 
@@ -195,13 +209,33 @@ button[disabled]{opacity:.6;cursor:wait}
         </div>
       </fieldset>
       <fieldset class="f" id="f-time">
-        <legend>方便體驗的時段（可複選）<span class="req">*</span></legend>
-        <div class="chips">
-          <label class="chip"><input type="checkbox" name="time" id="t1" value="平日 10:00–17:00"><span>平日 10:00–17:00</span></label>
-          <label class="chip"><input type="checkbox" name="time" id="t2" value="平日 17:00–22:00"><span>平日 17:00–22:00</span></label>
-          <label class="chip"><input type="checkbox" name="time" id="t3" value="週末"><span>週末</span></label>
+        <legend>可以來體驗的時段<span class="req">*</span></legend>
+        <p class="hint">選一天和時段後按「加入」，可以加入多組</p>
+        <div class="picker">
+          <p class="pk-label">選擇一天</p>
+          <div class="chips" id="days">
+            <label class="chip"><input type="radio" name="day" id="d1" value="週一"><span>週一</span></label>
+            <label class="chip"><input type="radio" name="day" id="d2" value="週二"><span>週二</span></label>
+            <label class="chip"><input type="radio" name="day" id="d3" value="週三"><span>週三</span></label>
+            <label class="chip"><input type="radio" name="day" id="d4" value="週四"><span>週四</span></label>
+            <label class="chip"><input type="radio" name="day" id="d5" value="週五"><span>週五</span></label>
+            <label class="chip"><input type="radio" name="day" id="d6" value="週六"><span>週六</span></label>
+            <label class="chip"><input type="radio" name="day" id="d7" value="週日"><span>週日</span></label>
+            <label class="chip"><input type="radio" name="day" id="d8" value="平日皆可"><span>平日皆可</span></label>
+            <label class="chip"><input type="radio" name="day" id="d9" value="假日皆可"><span>假日皆可</span></label>
+          </div>
+          <p class="pk-label" id="slot-label">選擇時段（可複選）</p>
+          <div class="slots">
+            <label class="slot"><input type="checkbox" name="slot" id="sl1" value="10:00–12:00"><span class="sl-t">10:00–12:00</span><span class="sl-dot" aria-hidden="true"></span></label>
+            <label class="slot"><input type="checkbox" name="slot" id="sl2" value="14:00–16:00"><span class="sl-t">14:00–16:00</span><span class="sl-dot" aria-hidden="true"></span></label>
+            <label class="slot"><input type="checkbox" name="slot" id="sl3" value="18:00–22:00"><span class="sl-t">18:00–22:00 <em class="hot">熱門時段</em></span><span class="sl-dot" aria-hidden="true"></span></label>
+          </div>
+          <p class="err pk-err" id="pk-err" hidden></p>
+          <button type="button" class="ghost add-btn" id="addSlot">加入</button>
         </div>
-        <p class="err" hidden>請至少選一個時段</p>
+        <p class="pk-label">已加入的時段</p>
+        <ul class="picked" id="picked"><li class="empty">還沒有加入，請在上方選好後按「加入」</li></ul>
+        <p class="err" hidden>請至少加入一組時段</p>
       </fieldset>
       <fieldset class="f" id="f-source">
         <legend>從哪裡知道 Cocoon？<span class="req">*</span></legend>
@@ -257,6 +291,36 @@ form.querySelectorAll('input[name="injury"]').forEach(r=>r.addEventListener("cha
   const yes = val("injury")==="有"; $("#f-injuryDetail").hidden=!yes; if(yes) $("#injuryDetail").focus();
 }));
 
+// 時段選擇器
+const picked = [];
+function renderPicked(){
+  const ul = $("#picked"); ul.textContent = "";
+  if(!picked.length){ const li=document.createElement("li"); li.className="empty"; li.textContent="還沒有加入，請在上方選好後按「加入」"; ul.appendChild(li); return; }
+  picked.forEach((p,i)=>{
+    const li=document.createElement("li"); const s=document.createElement("span"); s.textContent=p;
+    const b=document.createElement("button"); b.type="button"; b.textContent="移除"; b.setAttribute("aria-label","移除 "+p);
+    b.addEventListener("click",()=>{ picked.splice(i,1); renderPicked(); });
+    li.append(s,b); ul.appendChild(li);
+  });
+}
+function addPending(silent){
+  const day = val("day"); const slots = many("slot");
+  const err = $("#pk-err");
+  if(!day && !slots.length){ if(!silent){ err.textContent="請先選一天和時段"; err.hidden=false; } return false; }
+  const anyDay = day.endsWith("皆可");
+  if(!day || (!slots.length && !anyDay)){ err.textContent = !day ? "請選擇一天" : "請至少選一個時段"; err.hidden=false; return null; }
+  (slots.length ? slots.map(t=>day+" "+t) : [day+"（時段不限）"]).forEach(v=>{ if(!picked.includes(v)) picked.push(v); });
+  err.hidden=true;
+  form.querySelectorAll('input[name="day"],input[name="slot"]').forEach(i=>i.checked=false);
+  $("#slot-label").textContent = "選擇時段（可複選）";
+  renderPicked(); mark("#f-time",false);
+  return true;
+}
+$("#addSlot").addEventListener("click",()=>addPending(false));
+form.querySelectorAll('input[name="day"]').forEach(r=>r.addEventListener("change",()=>{
+  $("#slot-label").textContent = val("day").endsWith("皆可") ? "選擇時段（選填，不選代表都可以）" : "選擇時段（可複選）";
+}));
+
 function firstBad(list){ const b=list.find(x=>x[0]); if(b){ $(b[1]).scrollIntoView({block:"center",behavior:"smooth"}); const el=$(b[1]).querySelector("input,textarea"); if(el) el.focus({preventScroll:true}); } return !b; }
 
 function checkStep1(){
@@ -273,7 +337,7 @@ function checkStep2(){
   return firstBad([
     [mark("#f-goal",many("goal").length===0),"#f-goal"],
     [mark("#f-injury",!injury || (injury==="有" && !val("injuryDetail"))),"#f-injury"],
-    [mark("#f-time",many("time").length===0),"#f-time"],
+    [mark("#f-time",picked.length===0),"#f-time"],
     [mark("#f-source",!val("source")),"#f-source"],
     [mark("#f-consent",!$("#consent").checked),"#f-consent"],
   ]);
@@ -291,12 +355,13 @@ form.addEventListener("keydown",e=>{ if(e.key==="Enter" && e.target.tagName==="I
 form.addEventListener("submit", async e=>{
   e.preventDefault();
   if($("#step2").hidden){ if(checkStep1()) show(2); return; }
+  if(addPending(true)===null){ $("#f-time").scrollIntoView({block:"center",behavior:"smooth"}); return; }
   if(!checkStep2()) return;
   const goals = many("goal").map(g => g==="其他" && val("goalOther") ? "其他：" + val("goalOther") : g);
   const data = {
     name:val("name"), line:val("line"), phone:val("phone"), gender:val("gender"), age:val("age"),
     format:val("format"), goals:goals.join("、"), injury:val("injury"), injuryDetail:val("injuryDetail"),
-    experience:val("exp"), times:many("time").join("、"), source:val("source"), note:val("note"),
+    experience:val("exp"), times:picked.join("、"), source:val("source"), note:val("note"),
     consent: $("#consent").checked ? "同意" : ""
   };
   const btn = $("#submit"); btn.disabled = true; btn.textContent = "送出中…";
