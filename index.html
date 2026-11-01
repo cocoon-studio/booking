@@ -6,7 +6,7 @@
 <style>body{margin:0}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 </head>
 <body>
-<title>Cocoon 預約體驗</title>
+<title>Cocoon 體驗預約</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap">
@@ -73,24 +73,77 @@ button[disabled]{opacity:.6;cursor:wait}
 .preview-tag{font-size:.78rem;color:var(--muted);border:1px dashed var(--soft);border-radius:8px;padding:4px 10px}
 .foot{text-align:center;color:var(--muted);font-size:.8rem;margin-top:22px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.intro{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.lede{margin:0;font-family:var(--display);font-size:1.05rem;line-height:1.75;text-wrap:pretty}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:4px 0 0}
+.facts div{background:var(--field);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.facts dt{font-size:.78rem;color:var(--muted);letter-spacing:.06em}
+.facts dd{margin:2px 0 0;font-weight:700;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.incl{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:2px}
+.incl li::marker{color:var(--soft)}
+.small{margin:0;font-size:.85rem;color:var(--muted)}
+.sub{font-weight:500!important;font-size:.88rem!important;color:var(--muted)}
+#f-injuryDetail{margin-top:10px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.9rem;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--accent)}
+.bad .check{color:var(--danger)}
 </style>
 
 <header class="band">
   <img class="mark" alt="Cocoon" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCADwAPADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD6pooooAKKKKACiiigAooqO4uYbWIyTSLGg7saAJKRnVFLMwVR1JOBXNX/AIvUBlso84/5aOP5Cudn1G7vZN1xO0mexPA/DpWTqrobRot7nbXHiCxhJVZDMw7RjP61Ql8SXD58i3RBnGXOTXOwvkD+9U4kHOetHNcORI0ZdYv2XmfafRFAqhc3l44+a6mOf9silMiYx+lMkQPz1pgtCsGuH6zSn/gZNRXT3UUZCXE6Ans5q+iAHtTZ1RsZPH0pco+bUrx32qRKpS+uFJxj5ic/galh8VavAfmuFkGcYdAc/lSOuSDu5HSqkqbjjHB/Okxqz3OhtfGj8C5tVPqY2x+hrZtPEWnXZCrOI3P8Mg2//Wrg/L2kHjHTIpGIDDqw7n0oUmhOEWenggjIOQaK8/sdVubJx5MzgH+E8g/hXR2PiqCUKt0vlMf4xyv+IrRSM3Bo3aKbHIkqB0ZWU8gg5Bp1UQFFFFABRRRQAUUUUAFFFFABRRRQAUUjMqKWYhQOST2rIvdRNwGiiZkQ8buhb/Ck2NK43WPEkVhmG3CzXB9/lT6/4Vx95qN1dy+ZfMxJPB/hA9h2rXezSyi35SR+xK1kXGZHJckseSa55pvc6qfKtiJHVm4bIHoalAAwQvWq3lBGyg2+/rVhHdRh1z7gUlEtscAdw5x9KnQg9Tn3NRp8zYxn8amUDtmqRDY4qD0YUu7aMenNNJ2570xtwHYU7isS+bj6+lRPJvBB9ai3EA9R70gPBG6ncXLYnUqVwMZpvk7+h5pAdi5YjHfFDyIsZfeO34UCBoiF5Gcc5qLygTnngVE+rQjdglh0OOtRDV4uEYMWPcCkykmWkj5wRjHQ0vkMx+RSadazRuiuT8j9PeryBSPQU0S9CC01S+0xt0ByufmjPKt/9eur0jxBbaqAn+qmxyhPX6Hv/OuWnjIUsoBY81U8l45PNjPI5K5xn39j71V7CcVJHpFFczpHiyLctvfuUy2xZXGOfRv8eldNWlzFprcKKKKBBRRRQAUUUUAFIzBFLMQAOSTS1iapfGdjAh/dg8kfxH/Ck3YaVyPUrxr47EZkjU5GD973NUmR1AIlJ9m5pWwOgpQSAA3IrK/c0GvE1xGUY9uMcVkXUYh3BlxityNsMKq6mgkZE7nPSqsmOLszIRRMMnj096XG3rzzU7ReWcYoVBncQB6mpaNExBFuYc8Y5pc4wMcfzp+7vjpSEjn+ooaC4bRx+YpjjOBjP1qQEEZPamsABmlYLkJTgEg/hUbopTGOQTTwT85z8o7E0ElwR0p2C5GyERgdM8ZFAiLqFJU+hNTiLcOTSlNvHBp2E2Ujp0OH5xnBPfBqKTRhjJdm3Z6dq0/Lzg570rAI4AJIpMabMh7ee2P7twRjO3pU1rqfkjZMSWHVQOn+NXGUZ9c9sVVkUNuTywQT1wKjmLsmX4tStZl4dd2elPLQyfdbB/nWGtnDEpO4j3pEiuIWQ28wI6c80czD2a6GleWaPGBKVIatbw34jezdNO1Bv3R+WGZj930BPp71hG+IwJArN79KhNwGDIwLL/Kqi9dCZRurM9VorlPCXiPzW/sq8YrMnETN/GPT611dbJ3OaUXF2YUUUUyQoopssqwxtI3RRmgChrF99ni8pDh3HJH8IrmkujLuCuGwcVeuJWuZ3Lg/Nznt9KgaFV5VBkDggVjLV3No2SsQJcOrENzVlZPMWqjowbcRjNSxuB05NZ3NGidM/lSXEXmgMn3xzSq/IqQEde9XFmbKTBZABjEgHI71Ay47H1q7OvmMu1fmzio54Ci5JHJqkBVIJORxTTk85yKcw2tjnFMDlD2yaRQ8ZI9BTTynA4PcUvXJ247UuTjhc49KpIBqxLt4B49e9NYH06DpTy3OMknNPGF5HNArkG4KoOSAfbmnBhg80My/xAAD9ahV/mIU8VLdikrkvmMGHU/hTJX+Y8KajmmZPmXGOh55qsX3nJyue/rUc1zTlJ5biNFJJ/EniqyysxY5PPSnG2LjggjGcAZp4t9i7MZ4x06UWBNFZ1JPyhmYdj3/AKU8ShUVeUk64xmrBASPaO461AIhkbs47+9IrccVVSzZ69c85zUaJy2GxuzyKneMFMq2T6GkSMA7sdO+ODTWjB7FQwS20qsjvnIYEHBBHevR/D+rf2rYq7gLOnyyL7+v41xG9TggAdqtaTqLaZfpOD+7PyyL6r/9brVqVmZTjzI9AopEYOoZSCrDII7ilrY5QrO1Sbcywg8Dlv6VoMwVSx6AZNYTu0sjOerHNJjQwr7VE6Z6VYxTSoxUtDTKbxA5zVZl2tmrcqkkjtUUibeF/DNZSNosSPnnvUw5H0psUWeD1qwsW2hJik0MCc5702WIPgnPHY1Y24/Cmkhu1aWM7mfNb7RuXJ/DpVcxc+hrZMYHSm+QrL0+tS4spTMgoRngGmlemKj8T69ofhSy+3a1qtnp1uej3EgUv7KOrH2ANeN+Iv2qfCmns8Wi6bqGsOOkjYt4j9M5Y/8AfIpq47o9nMRBz/kU4EIgz1PvXjGi/Er4u+LkS40b4e6fZWbj5ZtRldFI9QWZSR9BW8ZfjTIN8lr4DUjopkuCfzHFNgnc9BuGVyQSAD2qBEYDIU8V53deKvi3oime98CaPrEI+8dKvWD49lYkn8qraN+0b4TuLprDXrXU/Dl4h2sl7AWVD7leR+KiocWzRSSPTfLIUFkAHcHmnJHkDOOD09aZp+q6frVml5pt5bXtrIPklgkDqfxH8qzvFPiPSvB2izavrNz9ntIiAG27mZieFVe5Pp7E9qhLoW31NbaApHmEZ7Z4xQzYQE9+OveooXMm1lYncAwyMcGrPk7hk4z/AFrREvQrNgMRwPf0pCBncy81O1v1yT68UgQE4HFRJFKRCT1AOc9qilZnUKB06CpyAGJJGBSCMyhtuAB3oSG2MAIUDPHWrNrGu1pHyQDhR6n1pogAIblvUHpUjSBUCALgenaq5XclyOq8NamLuF7Vv9ZBjHup6VtV5zoOpGz1eGUkBGPlv/un/wCvzXo1bR2OapGzKupSbLYr3Y4rJq7qcm6dY/7q5/OqfFAkLUN1L5UecHJ6VIxPUUx1Egw3IqJN9Ckl1M4SvJw+SD6VYj3EnC5Hqanjt40O4DJqQcdqjlbKckMVR3FKcjpz9ak20myrSsQ5DMk0o96GWkLY4Jp3AlUZ6da8G+M/7S1p4RmuNA8I+RfavGTHPeON8Fo3dVHR3H/fIPqeAftKfGeTwhY/8Il4fuTHrF7FuuriNvmtIW6Kp7O479QvPUgj5Dzk81SRJ0UX/CVfFLxVFAZb3WtZvn2qZH3N6nk8KoGT2AAr6y+F37PugfD23hvtRSHV9e4ZrmRMxW7ekSn0/vnk9sdKf+zp8Jo/AXhZNY1G3A17VolklLj5raA8rEPQnhm98D+GvWXGe2aUthx3MuVDyQTn1POahxuHJBq9IpGf5VXZRg1zu50JkJQED/Cue8bfD3w54/sjba5p8c0gUiK6j+WeE+qv1/A5HtXRHIGOhpu7LfTildlWufH/AIp8M+NP2fvEcd9pOozfYJ3/AHF5GP3U4HPlyocjdjsevUH05n4h/FHX/iVeQS6s8UNvbriG0twViQkfM2CSSx9SfYcV9oeJ/D9h4q0S60fVYBPaXS7XXup7Mp7MDyDXxB478HXvgTxReaHe/OYW3RSgYE0R5Vx9R+RBHatoSUt9zCcXHbY+7LIJ9lgORkRLkf8AARVrzB0XC/TrVLT5Fa1gyeREnX/dFWZcLhiO2c+lQpGziSSsoX29azp7oRkhWwc9+DSyyXEpKKQo6ZApsdqVZHdixX7uRwPpSbuOKtuPtoTL+8mO0NyB0z71YdkjQg7cjgEHt9KpSzeXwp5Bx9aa0oboQD1yaFKxTi2WGuDjlj7YqOW7XysrtJ6VRffM2xPmJpfKeJ/KkGWHIHpVRnd2B07K5EfMOGGSPavUfD961/pFtO/+sKbX/wB4cH+VefwRKw5BBzXYeEJNtvNBnOGDj8R/9atkc9TYfdyZvJCf72B/KoyCe9NmkBdm5yWJ5+tIsu4c9ai9xND9wApu3dzzQq4OSeKfnigQmfSncVGaN/IFNMTRLSGm54pSaZIhqOQcg7c+1SEUuBxmhq407HwN8avDWv8Ahz4haqPEEj3M15M11Fd4wtxGx+Vh6Y+6V7EY9Ku/s/8AghPHHxK063uYvMsLHN9dKRwyRkbVP+85UfQmvrv4n/DbRviXoDaXqS+VMhL2t2igyW8nqPVTwCvcehANcR+zr8J9V+Gp8StrkCLdz3EdvBKh3JNAoLb0PoSw4POVwelCfQGj2gknJPU96RiccUbhTHlABxSbQJFe6kAG3GD61RJYnFWJyZCT0FVwR/8AXrBu7N0rIa45poIJJx0pz8A1HyoBx1pNloHAYZJrxD9qDwcmpeFrbxJDH/pOlyCKY45aCQ45+j4/76Ne3FxgjpWffW0GoQSWt5BDdW8y7JIZlDIwz0Kng0lKzuNx5lYdZyRraW7HBxEvQ9PlFTqonX5nIDDqO9RwQxncTgN6Z4x6UrXK52qMc4przG/Ik2CEtj7p9TinSSrHFgH5z0qvKH2Y646VVhaZZdxBb3NO4lG4rR7mZm5prx4XIz9MVOGQnJ6ntSyPHIvysKk0uZ9u/k3Clc4Bz9asXBd7yQsSzFufpVchfOznFTknzyuBwaIWUip6otWxwOTXR+Fptl+U7SRnHvjmuciUng8ntWpoDmPWLbjG5sH8Qa6os5JxNMgjOeeaQJ155qcojHkfrSiBM5A5+tY8rFzBGVK7epHWlIANN/1Yztz607fkcCrT6EsQjjAqPY2evNSU4L61VhEe04pw6cmnHijtyKLANB5x2rmvGPjQeG7rStIsLIajrutSPFYWhk8pCEG55JHwdsajk4BJ6AV0pHGK5fxp8P7PxmdPuze3ulatpcjS2Gp2TAS27HG4YPDKcDKn/Gi5NjnfG2s3Pg7R4tR8U65rGoXV1J5NrpXh6I2yzSkZ2KwzIR/tM4+meKj+H+heM5dXi8Q67LHoNoInRdCjuJ7uSRWwQ08kkhAcY42jIyema1YdI+J9mgi/4S3wzqCjpLdaPLHIfr5UoX9KuQaN4zuAFv8AxTptuh4I0zSsP+DzSOB/3zS9Bpdzonu4zvVHVihw2DkqcZwfTgg/jVcXQJGCSG6Hsfxri/E/w31a5Omf8I5rsdrHbzyXN9balG9ymqSuAPMmYMrMQB0+6MDAGAKm0X4cQaXqF1ql08U2oXBVpBaCS3tlI6Yi3kZ6cnPQAACsppm0LHbGMOgPQfzqq8WwEkcL1PpXAaH8P/FNleT/ANr+I9L1OKWdpo7q60zzbqME8Ku9/LUDHGFwPStHX/BPii88UWup2viWyubCK2EH2DVrJp4xJnLTARsgLn1I46DiptcLtHVtGRklCB7ionXd8oBJHOAK5aH4dR6RoOoWei6nPY6neLIyXylylvI3eOEuQoHPcnknOayNM+Gd5LDp8PiS/wBPu/7PYOk2n281vcTsBgmWXzSST3wMnnkZNLTuUrncNGwzkHjrUcgKcMpwenFcpqHga7v/ABVBqUmu3MWk2cIW102Ifcl/ilLsTl/RsEjsQear6T4E1LRPEms39p4jmXTNTaN/sro800LKOdskjEDJJ5wTyOmKjTuaq/Y6vdGpJzgelJbtmU7xg54+lKQQxOMKKhiYNJuB49+1CZTRqLsbGRxTZkVB6A8VXjkKk4I9KJZGkMZLAbSePWtFIz5dQktwxx096hltFQEqc96lZ2U/KQR2NRmUOTk9qTSKTZlSM/m5/L3qxCd0uT1zyDUVw4WYA8ZPWnWR8yVxg7gaUVqayfumxAQxAHPqav6Wv/E0tmHQSr/OqMGEHGB9au6S+7U7UHvKtdETkkb8qCOVlAwQx/nSAgdc0/Uf3V0/vzk1QkvExlZY8dzuFDdjJK5Z8ze+0cnpQAORn3qCK6jzyy89D608sWzjkipQyfOB7UeYBVf7QNvIP0qRZEbqKFNdwcWPJzjFKcDNMLD1xSFvehzDlBmx9KZuGM9qR2UepNQSM7KSEZsAnavVvYe5rNzd9C1Ducv8TvifpHwv8PnUtQPn3cuUsrJGw9w/9EHGW7fUgVzn7PXxJ1P4keHdYu9Zmjkv7fUW+WNQqxwugKKo/ugq4GefU18n/E3xtq3jzxfe6pqyvA6uYYbRs4tY1JAjx6jnPqcmu9/ZY8Yp4e+ILaPcyBLbXIvs4JOAJ1O6P8/mX/gQroUbIx5tT7FkG4A8ioH3jJyOOxFWeq4/GgYB6ZqGrlJ2I7ZpJM+Ym3HepH4+VBx6UM7Zwq0qZGSVGfXNNLQT3KM8bBeVwaquoIz3rSuH3jAUVSePPUY/GuaSs9Dog9DNYkNgjB9zUM0nl/P8qjPOTitCWDngCvGv2jvEMek+ErTRRJm61e6RSoPPkowZj9N2wfnWcYtysbuSUbnqbycYwcE1WQYkwPoPepCG2hWYPjvjrSJtDHJ4J5HSqWo3oOXcWJA56U7ync7mPA6ACneagYgLgDkYqaEjZneBz0I61aWpm2yIA9DwD+hqGVSoPZh3qzI+W54yeADz9ahuCzghT04x64qmxIxrlS0n3sn6VPp8oR3OeT+lRoA8skzuAF6A8knsKlt4igBIIz7c0oams9FY0Y5S34Vr+Hx52s24CkBWLY9MA1iwyggAgZrovCMRk1VnPIjiJz9cD/GtY7nNPZs1vEVrbNcQTzqmcbVLdiKzljgYfKkRHsBXR6rbi4tGBUNtO7BFc81lB18pAfYYqpbmMXoPSJF+UKMEdMU9GCEqMA1CtsicqXUgdmNCwE/MJpRntnNK5ViRhgklOOvFMV0zgHB9DTsSIOZtw9Coqu8Vwr/Lcg85AZAaiyKTLOM9eKegHc5qBBchAQY2b1OQKQNcqRujjI77WpqKE2yyWT2GKiLKW68VEWun+5GkYGc7+c/lUYS/diM2qnt940wsz5s/aZ+D0kdzceO9Ati8EnzarBGOY36eeB/dP8XoeehOPna2uZrK5iubeR4poXEkciHDIwOQQfUEV+kBsp5VZZJ02sNrL5YIIPUEHqDXzv8AFn9liSd5dZ8BiMu2Xm0liEGe/kk8D/cP4HtWkZdzOUeqPV/hB8TbX4n+FIb7zI01W2CxajbjgpJj74H91+o9Dkdq7ORpg42lcD2zXwF4b8R+J/hP4qF3bJcadqFufLntbmNlEiZ5SRDglT/gRzX1z8MfjF4f+JNtFFb6glhrGP3mm3ON5Pfy248xfpz6ionF9Bwkup6TFMFGZWIPsKd5ltKcsTkepqlIGQlXd8j0AFRYmkb7ny9ueaj2nQ09n1NPNuy7Q4471CEgdvvgnvj/AAqjEk4JAiIPrisvxd440TwDpn2zxBfQ2akZjjbmWY+iIOWP6epFDkn0Dla6mvrV5pmiaXdarf30dpZ2kZlmlk6Ko/mewHUkgV8M+PfHlz8SPiANWdGitvOSCzgJ/wBVCG+UH3OSx9ya6n4gfEnxb8etai0Lw/pl0ulxvuhsIeWc9pZ26fn8q+55ri9X8C654D8Xafpmu2nkSPNE8bowaOVS45VhweeD6GtYxSfmZSlJryPuK40y4jlbdC+MnoM1nzwyRjlCu7oCMV17ajE0smQw+Y/zpj3cEsbCZVKngDqTWPsl0Z0KtLqjiRceQhU5fB7dqnjmDDcMjrkelaNxpkc0peCExgnG0Y6fSqKxbHKtlCD0xiosbJp7BLO2AfKYkDgYx+NR3qyeWuyJ04yzNxmnXDlicqTz1zxVW5m85Y4+xYLzRcaQyzhx5aELnO5xnOTV6dMHjaB7cmq2nIu9mYkkEluK0sO3JgKgjqwpwVlYmb1KqLtHTt3rsvBFqUtJ7lusjBRx2H/665VNOlnckOOOcf54r0LRbH+ztMgtzjcq5bH948mtqa1OetJWsXSAQQeQa525iEE7Rnkr0PtXRVm6vab9s69Rw30q5rQwi9TLk6cVEqlTgHNWCmaFTFZ2NrkRQsh4AyKVlDY5xT9m0r9akCrjG0HBoSFcYq4XHU0hjwakKjnB4pwWiwrkSqvehnCnIXJ9aUj5yKRsAYxRqMR13HJOPYUCUIOac7Kq/MORzWfLc+Ydq8VnOSiXGLkZvijwx4X8ZW32bxHotpqUajCNKn7yP/dcYZfwNeQ+IP2UfCl1L9o0DXdU0dyQyJKFuI0PbByrD8zXs0n3Sc1UadiQKl13FFqgpHlmleFPjF4QdbWw+IGkaxaxjCJqkDyYHpkqWH/fVdhps3xouYC3/FvXxxllu1z74FbLTL5xVxtYdqu2t9LAwEEmM/w4zmlCvrdlTw+mhyV/4a+NutgxSeMfCugxNwX0qykeQD2Mgz+RFZWnfsseHp746n4s8Qa34nv3IMj3EvlI/scEuR/wIV60r3ZUGWcLnrtUDFVpru4tZggnMqHv3FdHOjn9myHS/CGj+GrQWmhadaaZbr/yygjChj6serH3OTWL428EaP41sba01m1YmzuUuIJo22vE49GweDgAjvx6Cupjv2cAsAR6Gi4EVwuARg9RnpUvvHcpO2ktilb2l0nO7cpJOM5qUBGJzGytnHI4H41XmW4g+QSso7MKlilmkUfvd+R1NYqVtDZxvqWYIgD9/B7H0pJ7WJQNy72Jxk4NVvtYUlZNyYH3k5WqEt9K7vvJAI4LcBMe3qa09rGxKpSbFv7KMKSqgdzz1rnpI3N0I4smTsfT3qefXrxCA4jkXHcc02zvLae9WWYtFlSAAucVjdSeh0qMoLUt2dk9qg80klj3HeugsbE3NpmdG3hjjcDyO3WqMM1u7bkuHVkOVbaRzWnb6vbGXyxMQW/vZ259s10xS6nHUbHaZo8k94iSpiJSGYZ4IHb+VdhVPTIfLg8wjl+fwq5WyVjmk7hSOodSrDIIwaWimIwp4jBKUbt0PqKjJPSti+tfPj3KPnXp7+1Y5znpWbVjRMXggUA9RSAHHXml6t+FIY5FBFPI4pinFOOSKYiNhycUgOex4qTGeKaeKVhoa6CQVVksV3BsHj0q8vPtTmHaplTT3KU3EzzZLIueg9KhbTYFwSK0mX3IqIovJxk+9T7KPVFKq+5l3WkW11sYgqVGAR1pqwW+lRmRQzseAW/zxWix+mKhlgF1E0Z78g+hqXTW6Wpaqu1m9DNM09w292AX+6DwBVqWG2ihEqTgsOcMetMjtpoXAaHf9elVrxNjHcAp9AazvY1S5mTtcKwRgrL6+1aFvFGi+YDuU8HArOQpMiZ5Y9R0xV+NsKAM/WtIrqZTdtEQ38DIGYfMp559qr2gJhcBsbuCPar94jSRZU7sDn1rNhlEYyANq85z3rOatIuDbjYmWIk+WQfTp1rO1q3aMtsR1CLuJxw30+lXxdJISY2+bHaqE5uZ5FWUuyxnIB4WsqlSKVrXNacZc1zAZcAOyAs/Kgj7q/3sVJHGqKflUk9yOcGte6t45Jx5kRUkAb1rJ1Hybe4EMRkkbGT0G2lR0Nqj5tCRZfs/zDdnsM9a0tB02fWdRjicYiUiSRh2A/qelYluJZ50RY2eQkKqjkknpXqvh7RxpFgsb4M7/NKw9fT6Cu2EeY46s+ReZqAYAA4oooroOEKKKKACs7ULTGZoxx/EP61o0daTVxpnPA8ilZQMHvVy9sPLbzIx8nUgdv8A61U2yfw6VDVi0xRxS5pmc88j2p4IPWgBQQaQ4HNGR60jc0wEDZOBUhJpm3nNPzSExjsRxUTGpjzUUowKTGiMKSenWnwxbRmhGxxTg+B1oQ2wlHNYN+N12cDIUcjFbN1ceTCz8cVhz3BOGVRu7kcZrGpZs2o3QiOscm44Pr9a04JQw56471hM5Y9cMOfrV+wEjupzms/aWdjWVO6uy9OSyYyQD1A71DOyWzKPLGHT7uAMVbMRbHPTmkv7f7RH5o4ZBnH96m02myFJJpGQqCNiUJQenYfSplmUjGcmoGjZuScD0qVGhK7CAD6iueK10OiTutRi3RSYIU3A9/Sud1ovbXryiIgPgAiushihkH3vu9+K2dP8OQSypdXUYYId0aN69ia7IU20YOqoso+CfDbW0aanexlZ3H7uNv4B6/U/pXXUUV0pJaI45ScndhRRRTJCiiigAooooAKzrzTjzJAPqn+FaNFDQJnO4IOCKcBiti5sY7jJ+6/qO/1rNlt5IDiRfx7Gs7WLuRA0uKQqfSlHNABg0HApxOKjPNDBDlYGmuMnGaAMHrS4HU0ARgYOKRumB2p7sFOeKrXd2lvA0vXA7UpSUVdlRTk7Ip6hPGS0DyAKRkn+6RWRPNGp+R2YY/u1RuL6S7mkkwVBPAH8zUlrA0hB5+lcLqX2PRjS5VqWIQkjfeA9jxWxZOqRkBlz6ZrNW1WI5Y49qbJP9nwQwFRqncbSlobrXqxrg4zUDXrLl1fgdc965a51Qq+FbJ7+lLDqUjkKxO3HfvTVSTYnQSRqyzAZbIOecCqf2tnuAkcbFjwAvJJNSaZpOoa2221j2wg8yv8AdA/qfpXc6J4as9FUMg824Iw0zjn6D0Fa0qUpO72M6tWEFbqQaHoTRqlzfIPOxkR/3fr6mt6iiu9JLRHnSk5O7CiiimIKKKKACiiigAooooAKKKKACkZQwwQCPQ0tFAFKfTVfJibafQ9Kpvbyw/6xMAdxyK2aKVh3MFjx0FNJrals4JR8yAH1HFVpNKGP3chH1FKxVzNYiomnWPIerc2l3a/cCMPZqyrmw1Hf/wAekhHcgZrCpKS2RtTjGW7Iby4kkJ2MQOxrDuZLiKQsHJ/Gtp7W7PW1nH/ADTF0y4kJ3WsxH/XM1xTi5bnZTlGBgzRjKTBQiyLkgdjnmrkEuxAUy3vitGbw1fSRLst5Hw2QDxj161PF4U1GQDcsMPuz5/lTp0proOdaDW5hTT5J3EcVSkm8zPIJHc9q7GHwAjuGu76RhnOyNQB+ZzWzYeGNJ07BhtEZx/HJ87frXTHDt7mMsTCO2p5zYeFtU1YgwW5ERPMjkqv/ANf8K7HRvAVrZBXv5TeSj+HGIx+HU/jXVYoreNKKOaeInLyESNI0CIqqoGAqjAFLRRWpgFFFFABRRRQAUUUUAf/Z">
-  <h1>預約體驗課</h1>
-  <p>Cocoon 女性友善一對一教練課・填完後我們會用 LINE 與妳聯繫</p>
+  <h1>身體狀態評估與訓練體驗</h1>
+  <p>Cocoon 繭・女性友善的身體訓練與照護工作室</p>
 </header>
 
 <main class="wrap">
   <form class="card" id="form" novalidate>
+    <section class="intro" id="intro">
+      <p class="lede">我們關注的不只是運動本身，而是妳每天怎麼使用自己的身體。真正的改變來自於被理解，而不是被要求撐過去。</p>
+      <dl class="facts">
+        <div><dt>體驗時間</dt><dd>約 2 小時</dd></div>
+        <div><dt>體驗費用</dt><dd>NT$1,500</dd></div>
+      </dl>
+      <ul class="incl">
+        <li>身體結構與活動度檢視</li>
+        <li>結構調整與基礎啟動</li>
+        <li>動作使用方式的調整與修正</li>
+        <li>姿勢與疼痛相關的方向說明</li>
+      </ul>
+      <p class="small">體驗的目的不是強度或消耗，而是建立清楚、可持續的調整方向。體驗後，妳可以在充分理解建議方向後，再決定是否繼續訓練。</p>
+      <p class="small">填寫約 2 分鐘，教練會依內容事先準備。</p>
+    </section>
+
     <div class="progress" aria-hidden="true"><span class="on" id="p1"></span><span id="p2"></span></div>
 
     <section class="step" id="step1">
-      <p class="eyebrow">STEP 1 / 2・基本資料</p>
+      <p class="eyebrow">STEP 1 / 2・聯絡方式</p>
       <div class="f" id="f-name">
-        <label for="name">怎麼稱呼妳<span class="req">*</span></label>
-        <input type="text" id="name" name="name" placeholder="姓名或暱稱" autocomplete="name">
-        <p class="err" hidden>請填寫稱呼</p>
+        <label for="name">姓名<span class="req">*</span></label>
+        <input type="text" id="name" name="name" placeholder="怎麼稱呼妳" autocomplete="name">
+        <p class="err" hidden>請填寫姓名</p>
+      </div>
+      <div class="f" id="f-line">
+        <label for="line">LINE ID<span class="req">*</span></label>
+        <input type="text" id="line" name="line" placeholder="教練會用 LINE 跟妳約時間" autocomplete="off">
+        <p class="hint">在 LINE「設定 → 個人檔案」可以找到妳的 ID</p>
+        <p class="err" hidden>請填寫 LINE ID</p>
+      </div>
+      <div class="f" id="f-phone">
+        <label for="phone">手機<span class="req">*</span></label>
+        <input type="tel" id="phone" name="phone" inputmode="tel" placeholder="09xx-xxx-xxx" autocomplete="tel">
+        <p class="err" hidden>請填寫 09 開頭共 10 碼的手機號碼</p>
+      </div>
+      <fieldset class="f" id="f-gender">
+        <legend>生理性別<span class="req">*</span></legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="gender" id="g1" value="女"><span>女生</span></label>
+          <label class="chip"><input type="radio" name="gender" id="g2" value="男"><span>男生</span></label>
+        </div>
+        <p class="err" hidden>請選擇</p>
+      </fieldset>
+      <div class="f">
+        <label for="age">年齡</label>
+        <input type="number" id="age" name="age" inputmode="numeric" min="12" max="99" placeholder="例如 32">
       </div>
       <fieldset class="f">
         <legend>上課方式</legend>
@@ -99,28 +152,6 @@ button[disabled]{opacity:.6;cursor:wait}
           <label class="chip"><input type="radio" name="format" id="fmt2" value="一對二"><span>一對二（和朋友一起）</span></label>
         </div>
       </fieldset>
-      <div class="f">
-        <label for="age">年齡</label>
-        <input type="number" id="age" name="age" inputmode="numeric" min="12" max="99" placeholder="例如 32">
-      </div>
-      <fieldset class="f">
-        <legend>性別</legend>
-        <div class="chips">
-          <label class="chip"><input type="radio" name="gender" id="g1" value="女"><span>女</span></label>
-          <label class="chip"><input type="radio" name="gender" id="g2" value="男"><span>男</span></label>
-        </div>
-      </fieldset>
-      <div class="f" id="f-phone">
-        <label for="phone">手機</label>
-        <input type="tel" id="phone" name="phone" inputmode="tel" placeholder="09xx-xxx-xxx" autocomplete="tel">
-        <p class="err" hidden>手機格式看起來不太對，請確認是 09 開頭共 10 碼</p>
-      </div>
-      <div class="f" id="f-line">
-        <label for="line">LINE ID<span class="req">*</span></label>
-        <input type="text" id="line" name="line" placeholder="我們會用 LINE 跟妳約時間" autocomplete="off">
-        <p class="hint">LINE 是我們主要的聯絡方式</p>
-        <p class="err" hidden>請填寫 LINE ID</p>
-      </div>
       <div class="actions"><button type="button" class="primary" id="next">下一步</button></div>
     </section>
 
@@ -129,15 +160,30 @@ button[disabled]{opacity:.6;cursor:wait}
       <fieldset class="f" id="f-goal">
         <legend>想改善什麼？（可複選）<span class="req">*</span></legend>
         <div class="chips">
-          <label class="chip"><input type="checkbox" name="goal" id="go1" value="減脂"><span>減脂</span></label>
+          <label class="chip"><input type="checkbox" name="goal" id="go1" value="減脂減重"><span>減脂減重</span></label>
           <label class="chip"><input type="checkbox" name="goal" id="go2" value="體態線條"><span>體態線條</span></label>
           <label class="chip"><input type="checkbox" name="goal" id="go3" value="肩頸痠痛"><span>肩頸痠痛</span></label>
           <label class="chip"><input type="checkbox" name="goal" id="go4" value="腰背不適"><span>腰背不適</span></label>
           <label class="chip"><input type="checkbox" name="goal" id="go5" value="姿勢改善"><span>姿勢改善</span></label>
-          <label class="chip"><input type="checkbox" name="goal" id="go6" value="學會正確使用身體"><span>學會正確使用身體</span></label>
-          <label class="chip"><input type="checkbox" name="goal" id="go7" value="增肌變強壯"><span>增肌變強壯</span></label>
+          <label class="chip"><input type="checkbox" name="goal" id="go6" value="受傷後調理"><span>受傷後調理</span></label>
+          <label class="chip"><input type="checkbox" name="goal" id="go7" value="體能與肌力"><span>體能與肌力</span></label>
+          <label class="chip"><input type="checkbox" name="goal" id="go8" value="舒緩壓力"><span>舒緩壓力</span></label>
+          <label class="chip"><input type="checkbox" name="goal" id="go9" value="其他"><span>其他</span></label>
         </div>
+        <input type="text" id="goalOther" name="goalOther" placeholder="請寫下妳的目標" hidden>
         <p class="err" hidden>請至少選一項</p>
+      </fieldset>
+      <fieldset class="f" id="f-injury">
+        <legend>有運動傷害、開過刀，或慢性疾病嗎？<span class="req">*</span></legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="injury" id="i1" value="沒有"><span>沒有</span></label>
+          <label class="chip"><input type="radio" name="injury" id="i2" value="有"><span>有</span></label>
+        </div>
+        <div class="f" id="f-injuryDetail" hidden>
+          <label for="injuryDetail" class="sub">請簡單說明部位、時間和目前狀況<span class="req">*</span></label>
+          <textarea id="injuryDetail" name="injuryDetail" placeholder="例如：右膝前十字韌帶 2023 年開刀，現在爬樓梯還會卡；有高血壓，固定服藥"></textarea>
+        </div>
+        <p class="err" hidden>請選擇；選「有」的話請簡單說明</p>
       </fieldset>
       <fieldset class="f">
         <legend>運動經驗</legend>
@@ -145,53 +191,54 @@ button[disabled]{opacity:.6;cursor:wait}
           <label class="chip"><input type="radio" name="exp" id="e1" value="幾乎沒有"><span>幾乎沒有</span></label>
           <label class="chip"><input type="radio" name="exp" id="e2" value="偶爾運動"><span>偶爾運動</span></label>
           <label class="chip"><input type="radio" name="exp" id="e3" value="上過教練課"><span>上過教練課</span></label>
-          <label class="chip"><input type="radio" name="exp" id="e4" value="規律重訓"><span>規律重訓</span></label>
+          <label class="chip"><input type="radio" name="exp" id="e4" value="規律訓練"><span>規律訓練</span></label>
         </div>
       </fieldset>
-      <div class="f">
-        <label for="pain">目前有疼痛、受傷或開過刀嗎？</label>
-        <textarea id="pain" name="pain" placeholder="例如：右膝爬樓梯會痛、去年扭傷腳踝。沒有可以留白"></textarea>
-      </div>
-      <fieldset class="f">
-        <legend>方便上課的時段（可複選）</legend>
+      <fieldset class="f" id="f-time">
+        <legend>方便體驗的時段（可複選）<span class="req">*</span></legend>
         <div class="chips">
-          <label class="chip"><input type="checkbox" name="time" id="t1" value="平日上午"><span>平日上午</span></label>
-          <label class="chip"><input type="checkbox" name="time" id="t2" value="平日中午"><span>平日中午</span></label>
-          <label class="chip"><input type="checkbox" name="time" id="t3" value="平日下班後"><span>平日下班後</span></label>
-          <label class="chip"><input type="checkbox" name="time" id="t4" value="週末"><span>週末</span></label>
+          <label class="chip"><input type="checkbox" name="time" id="t1" value="平日 10:00–17:00"><span>平日 10:00–17:00</span></label>
+          <label class="chip"><input type="checkbox" name="time" id="t2" value="平日 17:00–22:00"><span>平日 17:00–22:00</span></label>
+          <label class="chip"><input type="checkbox" name="time" id="t3" value="週末"><span>週末</span></label>
         </div>
+        <p class="err" hidden>請至少選一個時段</p>
       </fieldset>
-      <fieldset class="f">
-        <legend>從哪裡知道 Cocoon？</legend>
+      <fieldset class="f" id="f-source">
+        <legend>從哪裡知道 Cocoon？<span class="req">*</span></legend>
         <div class="chips">
           <label class="chip"><input type="radio" name="source" id="s1" value="Instagram"><span>Instagram</span></label>
-          <label class="chip"><input type="radio" name="source" id="s2" value="朋友介紹"><span>朋友介紹</span></label>
+          <label class="chip"><input type="radio" name="source" id="s2" value="Facebook"><span>Facebook</span></label>
           <label class="chip"><input type="radio" name="source" id="s3" value="Google"><span>Google</span></label>
-          <label class="chip"><input type="radio" name="source" id="s4" value="其他"><span>其他</span></label>
+          <label class="chip"><input type="radio" name="source" id="s4" value="朋友或學員介紹"><span>朋友或學員介紹</span></label>
+          <label class="chip"><input type="radio" name="source" id="s5" value="其他"><span>其他</span></label>
         </div>
+        <p class="err" hidden>請選擇</p>
       </fieldset>
       <div class="f">
         <label for="note">想跟教練說的話</label>
         <textarea id="note" name="note" placeholder="任何擔心或期待都可以寫"></textarea>
       </div>
+      <div class="f" id="f-consent">
+        <label class="check"><input type="checkbox" id="consent" name="consent"><span>我同意 Cocoon 使用以上資料安排體驗與課程，資料不會提供給第三方。<span class="req">*</span></span></label>
+        <p class="err" hidden>請勾選同意，我們才能為妳安排</p>
+      </div>
       <div class="actions">
         <button type="button" class="ghost" id="back">上一步</button>
-        <button type="submit" class="primary" id="submit">送出預約</button>
+        <button type="submit" class="primary" id="submit">送出</button>
       </div>
       <p class="err" id="send-err" hidden>送出失敗了，請稍後再試，或直接加官方 LINE 跟我們說。</p>
     </section>
 
     <section class="done" id="done" hidden>
       <span class="preview-tag" id="preview-tag" hidden>預覽模式・資料未實際送出</span>
-      <h2>收到了，謝謝妳</h2>
-      <p>教練會在 1–2 天內用 LINE 跟妳確認時間。先加官方 LINE，訊息才不會漏掉。</p>
+      <h2>謝謝妳的填寫</h2>
+      <p>教練會依妳的內容先做初步整理。為了加快安排，請加入官方 LINE，並回覆「<b>已完成表單填寫</b>」，教練會再跟妳確認體驗流程與時段。</p>
       <a class="line-btn" href="https://lin.ee/okY2sow" target="_blank" rel="noopener">加入 Cocoon 官方 LINE</a>
-      <p style="font-size:.8rem">lin.ee/okY2sow</p>
+      <p style="font-size:.8rem">LINE ID：@556kfhcb</p>
+      <p class="small">期待和妳一起，把身體的方向整理清楚。</p>
     </section>
-
-    <p class="note" id="privacy">資料只用於安排課程，不會提供給第三方。</p>
   </form>
-  <p class="foot">Cocoon・台南南科</p>
+  <p class="foot">Cocoon 繭・台南南科</p>
 </main>
 
 <script>
@@ -203,22 +250,39 @@ const form = $("#form");
 const val = n => (form.elements[n] && form.elements[n].value || "").trim();
 const many = n => [...form.querySelectorAll(`input[name="${n}"]:checked`)].map(i => i.value);
 
-function mark(id, bad){ const f=$(id); f.classList.toggle("bad",bad); f.querySelector(".err").hidden=!bad; }
+function mark(id, bad){ const f=$(id); f.classList.toggle("bad",bad); f.querySelector(":scope > .err").hidden=!bad; return bad; }
+
+$("#go9").addEventListener("change",e=>{ $("#goalOther").hidden=!e.target.checked; if(e.target.checked) $("#goalOther").focus(); });
+form.querySelectorAll('input[name="injury"]').forEach(r=>r.addEventListener("change",()=>{
+  const yes = val("injury")==="有"; $("#f-injuryDetail").hidden=!yes; if(yes) $("#injuryDetail").focus();
+}));
+
+function firstBad(list){ const b=list.find(x=>x[0]); if(b){ $(b[1]).scrollIntoView({block:"center",behavior:"smooth"}); const el=$(b[1]).querySelector("input,textarea"); if(el) el.focus({preventScroll:true}); } return !b; }
 
 function checkStep1(){
-  const nameBad = !val("name");
-  const lineBad = !val("line");
   const ph = val("phone").replace(/[\s-]/g,"");
-  const phoneBad = ph !== "" && !/^09\d{8}$/.test(ph);
-  mark("#f-name",nameBad); mark("#f-line",lineBad); mark("#f-phone",phoneBad);
-  const first = [nameBad&&"#name",phoneBad&&"#phone",lineBad&&"#line"].find(Boolean);
-  if(first) $(first).focus();
-  return !first;
+  return firstBad([
+    [mark("#f-name",!val("name")),"#f-name"],
+    [mark("#f-line",!val("line")),"#f-line"],
+    [mark("#f-phone",!/^09\d{8}$/.test(ph)),"#f-phone"],
+    [mark("#f-gender",!val("gender")),"#f-gender"],
+  ]);
+}
+function checkStep2(){
+  const injury = val("injury");
+  return firstBad([
+    [mark("#f-goal",many("goal").length===0),"#f-goal"],
+    [mark("#f-injury",!injury || (injury==="有" && !val("injuryDetail"))),"#f-injury"],
+    [mark("#f-time",many("time").length===0),"#f-time"],
+    [mark("#f-source",!val("source")),"#f-source"],
+    [mark("#f-consent",!$("#consent").checked),"#f-consent"],
+  ]);
 }
 function show(step){
   $("#step1").hidden = step!==1; $("#step2").hidden = step!==2;
+  $("#intro").hidden = step!==1;
   $("#p2").classList.toggle("on", step>=2);
-  window.scrollTo({top:0,behavior:"smooth"});
+  form.scrollIntoView({behavior:"smooth"});
 }
 $("#next").addEventListener("click",()=>{ if(checkStep1()) show(2); });
 $("#back").addEventListener("click",()=>show(1));
@@ -227,14 +291,13 @@ form.addEventListener("keydown",e=>{ if(e.key==="Enter" && e.target.tagName==="I
 form.addEventListener("submit", async e=>{
   e.preventDefault();
   if($("#step2").hidden){ if(checkStep1()) show(2); return; }
-  const goals = many("goal");
-  mark("#f-goal", goals.length===0);
-  if(!goals.length) return;
-
+  if(!checkStep2()) return;
+  const goals = many("goal").map(g => g==="其他" && val("goalOther") ? "其他：" + val("goalOther") : g);
   const data = {
-    name:val("name"), format:val("format"), age:val("age"), gender:val("gender"),
-    phone:val("phone"), line:val("line"), goals:goals.join("、"), experience:val("exp"),
-    pain:val("pain"), times:many("time").join("、"), source:val("source"), note:val("note")
+    name:val("name"), line:val("line"), phone:val("phone"), gender:val("gender"), age:val("age"),
+    format:val("format"), goals:goals.join("、"), injury:val("injury"), injuryDetail:val("injuryDetail"),
+    experience:val("exp"), times:many("time").join("、"), source:val("source"), note:val("note"),
+    consent: $("#consent").checked ? "同意" : ""
   };
   const btn = $("#submit"); btn.disabled = true; btn.textContent = "送出中…";
   $("#send-err").hidden = true;
@@ -245,12 +308,12 @@ form.addEventListener("submit", async e=>{
       $("#preview-tag").hidden = false;
       await new Promise(r=>setTimeout(r,500));
     }
-    $("#step2").hidden = true; $(".progress").hidden = true; $("#privacy").hidden = true;
-    $("#done").hidden = false; window.scrollTo({top:0,behavior:"smooth"});
+    $("#step2").hidden = true; $(".progress").hidden = true;
+    $("#done").hidden = false; form.scrollIntoView({behavior:"smooth"});
   }catch(err){
     $("#send-err").hidden = false;
   }finally{
-    btn.disabled = false; btn.textContent = "送出預約";
+    btn.disabled = false; btn.textContent = "送出";
   }
 });
 </script>
