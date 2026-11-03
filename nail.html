@@ -182,6 +182,24 @@ button[disabled]{opacity:.6;cursor:wait}
 
     <section class="step" id="step2" hidden>
       <p class="eyebrow">STEP 2 / 2・您的指甲狀況</p>
+      <fieldset class="f" id="f-visit">
+        <legend>這次是<span class="req">*</span></legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="visit" value="第一次在 Cocoon 做健甲"><span>第一次在 Cocoon 做健甲</span></label>
+          <label class="chip"><input type="radio" name="visit" value="回來保養（之前在 Cocoon 做的）"><span>回來保養（之前在 Cocoon 做的）</span></label>
+          <label class="chip"><input type="radio" name="visit" value="他店做的，想換來這裡"><span>他店做的，想換來這裡</span></label>
+        </div>
+        <p class="err" hidden>請選擇</p>
+      </fieldset>
+      <fieldset class="f" id="f-area">
+        <legend>手還是腳<span class="req">*</span></legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="area" value="手"><span>手</span></label>
+          <label class="chip"><input type="radio" name="area" value="腳"><span>腳</span></label>
+          <label class="chip"><input type="radio" name="area" value="手＋腳"><span>手＋腳</span></label>
+        </div>
+        <p class="err" hidden>請選擇</p>
+      </fieldset>
       <fieldset class="f" id="f-job">
         <legend>您的職業類別？<span class="req">*</span></legend>
         <div class="chips stack">
@@ -420,7 +438,7 @@ function checkStep1(){
     [mark("#f-source",!pick("source")),"#f-source"],
   ]);
 }
-const STEP2 = ["job","problem","duration","impact","cause","treated"];
+const STEP2 = ["visit","area","job","problem","duration","impact","cause","treated"];
 function checkStep2(){ return firstBad(STEP2.map(n => [mark("#f-"+n, !pick(n)), "#f-"+n]).concat([[mark("#f-times", picked.length===0), "#f-times"]])); }
 function show(step){
   $("#step1").hidden = step!==1; $("#step2").hidden = step!==2; $("#intro").hidden = step!==1;
