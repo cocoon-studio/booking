@@ -2,341 +2,453 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cocoon 健甲預約</title>
-<meta name="description" content="Cocoon 健甲・美甲預約｜台南新市，南科旁">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#f8f3ef; --card:#ffffff; --ink:#3b3330; --muted:#8a7d77;
-    --accent:#c9897a; --accent-soft:#f3e2dc; --line:#e8ddd7; --err:#c0453a;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);
-       font-family:"Noto Sans TC",system-ui,sans-serif;font-size:16px;line-height:1.6}
-  .wrap{max-width:560px;margin:0 auto;padding:28px 16px 60px}
-  header{text-align:center;margin-bottom:22px}
-  .brand{letter-spacing:.3em;font-size:13px;color:var(--muted)}
-  h1{font-family:"Noto Serif TC",serif;font-size:26px;margin:6px 0 8px}
-  .intro{color:var(--muted);font-size:14px;margin:0}
-  .card{background:var(--card);border-radius:16px;padding:20px 18px;margin-bottom:14px;
-        box-shadow:0 1px 3px rgba(59,51,48,.06)}
-  .card h2{font-size:15px;margin:0 0 14px;color:var(--accent);letter-spacing:.05em}
-  .field{margin-bottom:18px}
-  .field:last-child{margin-bottom:0}
-  label.q{display:block;font-weight:500;margin-bottom:8px}
-  .req{color:var(--accent);margin-left:2px}
-  .hint{font-size:13px;color:var(--muted);margin:-4px 0 8px}
-  input[type=text],input[type=tel],input[type=date],textarea{
-    width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;
-    font:inherit;background:#fff;color:var(--ink)}
-  textarea{min-height:84px;resize:vertical}
-  input:focus,textarea:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
-  .chips{display:flex;flex-wrap:wrap;gap:8px}
-  .chips label{cursor:pointer}
-  .chips input{position:absolute;opacity:0;pointer-events:none}
-  .chips span{display:inline-block;padding:8px 14px;border:1px solid var(--line);
-              border-radius:999px;font-size:14px;background:#fff;transition:.15s}
-  .chips input:checked + span{background:var(--accent);border-color:var(--accent);color:#fff}
-  .chips input:focus-visible + span{outline:2px solid var(--accent)}
-  .upload input{position:absolute;opacity:0;pointer-events:none}
-  .upload span{display:inline-block;padding:10px 16px;border:1px dashed var(--accent);border-radius:10px;
-               color:var(--accent);font-size:14px;cursor:pointer;background:#fff}
-  .thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-  .thumb{position:relative;width:76px;height:76px;border-radius:10px;overflow:hidden;background:var(--line)}
-  .thumb img{width:100%;height:100%;object-fit:cover}
-  .thumb button{position:absolute;top:3px;right:3px;width:22px;height:22px;padding:0;border-radius:50%;
-                font-size:13px;line-height:22px;background:rgba(59,51,48,.7)}
-  .hidden{display:none}
-  .consent{display:flex;gap:10px;align-items:flex-start;font-size:14px}
-  .consent input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent)}
-  .error{color:var(--err);font-size:13px;margin-top:6px;display:none}
-  .field.invalid .error{display:block}
-  button{width:100%;padding:14px;border:0;border-radius:12px;background:var(--accent);
-         color:#fff;font:inherit;font-weight:700;font-size:17px;cursor:pointer}
-  button:disabled{opacity:.6;cursor:wait}
-  .note-box{background:var(--accent-soft);border-radius:12px;padding:12px 14px;font-size:14px}
-  .done{text-align:center;padding:40px 18px}
-  .done h2{font-family:"Noto Serif TC",serif;font-size:22px;color:var(--ink)}
-  .line-btn{display:inline-block;margin-top:18px;padding:13px 28px;border-radius:12px;
-            background:#06C755;color:#fff;font-weight:700;text-decoration:none}
-  .line-btn:active{opacity:.85}
-  footer{text-align:center;font-size:13px;color:var(--muted);margin-top:24px}
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}.picker{border:1.5px dashed var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.pk-label{margin:0;font-weight:700;font-size:.85rem;color:var(--muted)}
+.slots{display:flex;flex-direction:column;gap:8px}
+.slot{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;border:1.5px solid var(--line);border-radius:12px;background:var(--card);cursor:pointer;font-weight:700;font-variant-numeric:tabular-nums}
+.slot input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.sl-dot{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);flex:none;display:grid;place-items:center}
+.slot input:checked~.sl-dot{background:var(--chip-on);border-color:var(--chip-on)}
+.slot input:checked~.sl-dot::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--chip-on-ink)}
+.slot:has(input:checked){border-color:var(--chip-on)}
+.slot input:focus-visible~.sl-dot{box-shadow:0 0 0 3px var(--focus)}
+.hot{font-style:normal;font-size:.72rem;font-weight:700;color:var(--soft);border:1px solid var(--soft);border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.add-btn{width:100%}
+.picked{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.picked li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-radius:10px;background:var(--field);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+.picked li.empty{background:none;border:0;padding:0;color:var(--muted);font-size:.88rem}
+.picked button{padding:4px 10px;font-size:.82rem;font-weight:500;border-color:var(--line);background:transparent;color:var(--muted);border-radius:8px}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="brand">COCOON</div>
-    <h1>健甲預約</h1>
-    <p class="intro">填好後我們會用 LINE 跟你確認時間<br>採預約制・週一公休</p>
-  </header>
+<title>Cocoon 問題甲預約</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+/* Layout: plum header band with the studio mark, one form card below, two steps with a progress line */
+:root{
+  --bg:#F6F1EE; --card:#FFFFFF; --ink:#1C1816; --muted:#7D706A; --line:#E6DAD3;
+  --field:#FBF8F6; --head-ink:#1C1816; --head-muted:#6E5F58;
+  --marble-a:#F1E7E0; --marble-b:#E4D2C8; --marble-c:#CDB2A7;
+  --accent:#1C1816; --accent-ink:#FFFFFF; --soft:#B8978A; --chip-on:#1C1816; --chip-on-ink:#FFFFFF;
+  --danger:#B4423C; --focus:rgba(184,151,138,.45);
+  --display:"Noto Serif TC","Songti TC",serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#181413; --card:#221D1B; --ink:#F1E9E4; --muted:#AE9F98; --line:#3A312D;
+  --field:#1C1716; --accent:#E4D2C8; --accent-ink:#1C1816; --soft:#CDB2A7;
+  --chip-on:#E4D2C8; --chip-on-ink:#1C1816; --danger:#E07A72; --focus:rgba(205,178,167,.4); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#181413; --card:#221D1B; --ink:#F1E9E4; --muted:#AE9F98; --line:#3A312D;
+  --field:#1C1716; --accent:#E4D2C8; --accent-ink:#1C1816; --soft:#CDB2A7;
+  --chip-on:#E4D2C8; --chip-on-ink:#1C1816; --danger:#E07A72; --focus:rgba(205,178,167,.4); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+.band{color:var(--head-ink);background:radial-gradient(120% 80% at 85% 10%,var(--marble-c) 0%,transparent 55%),radial-gradient(90% 70% at 10% 90%,var(--marble-b) 0%,transparent 60%),linear-gradient(160deg,var(--marble-a),var(--marble-b));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 64px;text-align:center}
+.mark{width:96px;height:96px;margin:0 auto 14px;border-radius:50%;display:block;box-shadow:0 6px 18px rgba(80,55,45,.18)}
+.band h1{font-family:var(--display);font-size:1.9rem;letter-spacing:.08em;margin:0;text-wrap:balance}
+.band p{margin:8px auto 0;color:var(--head-muted);font-size:.92rem;max-width:30em;text-wrap:balance}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+.card{max-width:560px;margin:-36px auto 0;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px 22px 26px;box-shadow:0 10px 30px rgba(80,55,45,.08)}
+.progress{display:flex;gap:6px;margin-bottom:18px}
+.progress span{flex:1;height:4px;border-radius:2px;background:var(--line);transition:background .3s}
+.progress span.on{background:var(--soft)}
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.14em;color:var(--muted);margin:0 0 20px}
+.step{display:flex;flex-direction:column;gap:22px}
+.f{display:flex;flex-direction:column;gap:8px;border:0;padding:0;margin:0;min-width:0}
+.f>label,.f>legend{font-weight:700;font-size:.95rem;padding:0}
+.f>legend{margin-bottom:8px}
+.req{color:var(--danger);margin-left:3px}
+.hint{font-size:.82rem;color:var(--muted);margin:-2px 0 0}
+input[type=text],input[type=tel],input[type=number],textarea{width:100%;font:inherit;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;outline:none;transition:border-color .15s,box-shadow .15s}
+textarea{min-height:92px;resize:vertical}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:.75}
+input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--focus)}
+.bad input,.bad .chips{border-color:var(--danger)}
+.err{color:var(--danger);font-size:.82rem;margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;margin:0}
+.chip span{display:inline-block;padding:10px 18px;border:1.5px solid var(--line);border-radius:999px;background:var(--field);font-weight:500;font-size:.95rem;cursor:pointer;user-select:none;transition:all .15s}
+.chip input:checked+span{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
+.chip input:focus-visible+span{box-shadow:0 0 0 3px var(--focus)}
+.actions{display:flex;gap:10px;margin-top:6px}
+button{font:inherit;font-weight:700;border-radius:12px;padding:14px 18px;cursor:pointer;border:1.5px solid transparent}
+.primary{flex:1;background:var(--accent);color:var(--accent-ink)}
+.ghost{background:transparent;border-color:var(--line);color:var(--ink)}
+button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+button[disabled]{opacity:.6;cursor:wait}
+.note{font-size:.8rem;color:var(--muted);text-align:center;margin:14px 0 0}
+.done{text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center;padding:10px 0}
+.done h2{font-family:var(--display);font-size:1.5rem;margin:0}
+.done p{margin:0;color:var(--muted);max-width:26em}
+.line-btn{display:inline-block;margin-top:8px;background:#06C755;color:#fff;text-decoration:none;font-weight:700;padding:13px 26px;border-radius:12px}
+.preview-tag{font-size:.78rem;color:var(--muted);border:1px dashed var(--soft);border-radius:8px;padding:4px 10px}
+.foot{text-align:center;color:var(--muted);font-size:.8rem;margin-top:22px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.intro{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.lede{margin:0;font-family:var(--display);font-size:1.05rem;line-height:1.75;text-wrap:pretty}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:4px 0 0}
+.facts div{background:var(--field);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.facts dt{font-size:.78rem;color:var(--muted);letter-spacing:.06em}
+.facts dd{margin:2px 0 0;font-weight:700;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.incl{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:2px}
+.incl li::marker{color:var(--soft)}
+.small{margin:0;font-size:.85rem;color:var(--muted)}
+.sub{font-weight:500!important;font-size:.88rem!important;color:var(--muted)}
+#f-injuryDetail{margin-top:10px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.9rem;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--accent)}
+.bad .check{color:var(--danger)}
+.chips.stack{flex-direction:column;align-items:stretch}
+.chips.stack .chip span{display:block;border-radius:12px}
+.other{margin-top:4px}
+.upload{position:relative;display:block}
+.upload input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.upload span{display:block;text-align:center;padding:14px;border:1.5px dashed var(--soft);border-radius:12px;color:var(--muted);font-weight:700;background:var(--field)}
+.thumbs{display:flex;flex-wrap:wrap;gap:8px}
+.thumb{position:relative;width:76px;height:76px;border-radius:10px;overflow:hidden;background:var(--line)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb.busy{display:grid;place-items:center;font-size:.72rem;color:var(--muted)}
+.thumb button{position:absolute;top:3px;right:3px;width:22px;height:22px;padding:0;border-radius:50%;font-size:12px;line-height:20px;background:rgba(28,24,22,.7);color:#fff;border:0}
+</style>
 
-  <form id="f" novalidate>
-    <div class="card">
-      <h2>基本資料</h2>
-      <div class="field" data-req>
-        <label class="q" for="name">怎麼稱呼你<span class="req">*</span></label>
-        <input type="text" id="name" name="name" autocomplete="name">
-        <div class="error">請填寫稱呼</div>
-      </div>
-      <div class="field" data-req-one="line,phone">
-        <label class="q" for="line">LINE ID</label>
-        <input type="text" id="line" name="line">
-      </div>
-      <div class="field" data-req-one="line,phone">
-        <label class="q" for="phone">手機</label>
-        <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel">
-        <div class="error">LINE ID 或手機至少填一個，我們才聯絡得到你</div>
-      </div>
-    </div>
+<header class="band">
+  <img class="mark" alt="Cocoon" src="data:image/jpeg;base64,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">
+  <h1>問題甲健康諮詢</h1>
+  <p>Cocoon 繭・從足部開始，守護您的指甲健康</p>
+</header>
 
-    <div class="card">
-      <h2>健甲內容</h2>
-      <div class="field" data-req>
-        <label class="q">這次是<span class="req">*</span></label>
-        <div class="chips">
-          <label><input type="radio" name="returning" value="第一次在 Cocoon 做健甲"><span>第一次在 Cocoon 做健甲</span></label>
-          <label><input type="radio" name="returning" value="回來保養"><span>回來保養（之前在 Cocoon 做的）</span></label>
-          <label><input type="radio" name="returning" value="他店做的，想換來這裡"><span>他店做的，想換來這裡</span></label>
-        </div>
-        <div class="error">請選一個</div>
-      </div>
-      <div class="field" data-req>
-        <label class="q">手還是腳<span class="req">*</span></label>
-        <div class="chips">
-          <label><input type="radio" name="area" value="手"><span>手</span></label>
-          <label><input type="radio" name="area" value="腳"><span>腳</span></label>
-          <label><input type="radio" name="area" value="手＋腳"><span>手＋腳</span></label>
-        </div>
-        <div class="error">請選一個</div>
-      </div>
-      <div class="field">
-        <label class="q">款式想法</label>
-        <p class="hint">想要的顏色、長度、風格都可以寫；參考圖可以之後直接 LINE 傳給我們</p>
-        <textarea name="style" placeholder="例如：想要裸色系、短方圓、上班不要太誇張"></textarea>
-      </div>
-    </div>
+<main class="wrap">
+  <form class="card" id="form" novalidate>
+    <section class="intro" id="intro">
+      <dl class="facts">
+        <div><dt>諮詢時間</dt><dd>約 30 分鐘</dd></div>
+        <div><dt>諮詢費用</dt><dd>免費</dd></div>
+      </dl>
+      <ul class="incl">
+        <li>專業足部保養師指甲健康檢查</li>
+        <li>甲溝炎、灰指甲、變形、脆裂評估</li>
+        <li>德式無痛修剪，溫和不疼痛</li>
+        <li>每位顧客獨立專屬消毒工具</li>
+      </ul>
+      <p class="small">填寫約 2 分鐘，提交後我們會盡快與您聯繫、安排專屬時段。</p>
+    </section>
 
-    <div class="card">
-      <h2>目前指甲狀況</h2>
-      <div class="field" data-req>
-        <label class="q">現在的指甲<span class="req">*</span></label>
-        <p class="hint">可複選，幫助美甲師預估時間</p>
-        <div class="chips">
-          <label><input type="checkbox" name="condition" value="正常"><span>正常</span></label>
-          <label><input type="checkbox" name="condition" value="上次做的還在"><span>上次做的還在</span></label>
-          <label><input type="checkbox" name="condition" value="有斷裂／缺角"><span>有斷裂／缺角</span></label>
-          <label><input type="checkbox" name="condition" value="有翹起／空甲"><span>有翹起／空甲</span></label>
-          <label><input type="checkbox" name="condition" value="甲面薄、容易斷"><span>甲面薄、容易斷</span></label>
-          <label><input type="checkbox" name="condition" value="有咬指甲習慣"><span>有咬指甲習慣</span></label>
-        </div>
-        <div class="error">請至少選一項</div>
+    <div class="progress" aria-hidden="true"><span class="on" id="p1"></span><span id="p2"></span></div>
+
+    <section class="step" id="step1">
+      <p class="eyebrow">STEP 1 / 2・聯絡方式</p>
+      <div class="f" id="f-name">
+        <label for="name">姓名<span class="req">*</span></label>
+        <input type="text" id="name" name="name" placeholder="怎麼稱呼您" autocomplete="name">
+        <p class="err" hidden>請填寫姓名</p>
       </div>
-      <div class="field" id="photoField">
-        <label class="q">指甲照片<span class="req">*</span></label>
-        <p class="hint">拍現在的指甲就好，手背朝上、光線亮一點；最多 4 張</p>
-        <label class="upload">
-          <input type="file" id="photos" accept="image/*" multiple>
-          <span>＋ 選擇照片</span>
-        </label>
+      <div class="f" id="f-line">
+        <label for="line">LINE ID<span class="req">*</span></label>
+        <input type="text" id="line" name="line" placeholder="我們會用 LINE 跟您約時間" autocomplete="off">
+        <p class="hint">在 LINE「設定 → 個人檔案」可以找到您的 ID</p>
+        <p class="err" hidden>請填寫 LINE ID</p>
+      </div>
+      <div class="f" id="f-phone">
+        <label for="phone">手機<span class="req">*</span></label>
+        <input type="tel" id="phone" name="phone" inputmode="tel" placeholder="09xx-xxx-xxx" autocomplete="tel">
+        <p class="err" hidden>請填寫 09 開頭共 10 碼的手機號碼</p>
+      </div>
+      <fieldset class="f" id="f-gender">
+        <legend>生理性別<span class="req">*</span></legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="gender" value="女"><span>女</span></label>
+          <label class="chip"><input type="radio" name="gender" value="男"><span>男</span></label>
+        </div>
+        <p class="err" hidden>請選擇</p>
+      </fieldset>
+      <fieldset class="f" id="f-source">
+        <legend>從哪裡得知我們的<span class="req">*</span></legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="source" value="Facebook"><span>Facebook</span></label>
+          <label class="chip"><input type="radio" name="source" value="Instagram"><span>Instagram</span></label>
+          <label class="chip"><input type="radio" name="source" value="EMail"><span>EMail</span></label>
+          <label class="chip"><input type="radio" name="source" value="社團"><span>社團</span></label>
+          <label class="chip"><input type="radio" name="source" value="朋友介紹"><span>朋友介紹</span></label>
+        </div>
+        <p class="err" hidden>請選擇</p>
+      </fieldset>
+      <div class="actions"><button type="button" class="primary" id="next">下一步</button></div>
+    </section>
+
+    <section class="step" id="step2" hidden>
+      <p class="eyebrow">STEP 2 / 2・您的指甲狀況</p>
+      <fieldset class="f" id="f-job">
+        <legend>您的職業類別？<span class="req">*</span></legend>
+        <div class="chips stack">
+          <label class="chip"><input type="radio" name="job" value="需長時間站立（如服務業、美容師）"><span>需長時間站立（如服務業、美容師）</span></label>
+          <label class="chip"><input type="radio" name="job" value="需長時間接觸水或化學物質（如醫護、美甲師、清潔工）"><span>需長時間接觸水或化學物質（如醫護、美甲師、清潔工）</span></label>
+          <label class="chip"><input type="radio" name="job" value="辦公室工作"><span>辦公室工作</span></label>
+          <label class="chip"><input type="radio" name="job" value="其他"><span>其他</span></label>
+        </div>
+        <input type="text" class="other" data-other="job" placeholder="請填寫" hidden>
+        <p class="err" hidden>請選擇</p>
+      </fieldset>
+      <fieldset class="f" id="f-problem">
+        <legend>您目前的指甲問題類型？（可複選）<span class="req">*</span></legend>
+        <div class="chips stack">
+          <label class="chip"><input type="checkbox" name="problem" value="甲溝炎、凍甲（指甲邊紅腫發炎）"><span>甲溝炎、凍甲（指甲邊紅腫發炎）</span></label>
+          <label class="chip"><input type="checkbox" name="problem" value="灰指甲（指甲變厚、變色、脆裂）"><span>灰指甲（指甲變厚、變色、脆裂）</span></label>
+          <label class="chip"><input type="checkbox" name="problem" value="指甲掏空（指甲與甲床分離）"><span>指甲掏空（指甲與甲床分離）</span></label>
+          <label class="chip"><input type="checkbox" name="problem" value="指甲脆裂、易斷"><span>指甲脆裂、易斷</span></label>
+          <label class="chip"><input type="checkbox" name="problem" value="指甲變形（凹陷、過度隆起等）"><span>指甲變形（凹陷、過度隆起等）</span></label>
+          <label class="chip"><input type="checkbox" name="problem" value="其他"><span>其他</span></label>
+        </div>
+        <input type="text" class="other" data-other="problem" placeholder="請填寫" hidden>
+        <p class="err" hidden>請選擇</p>
+      </fieldset>
+      <fieldset class="f" id="f-duration">
+        <legend>您的指甲問題持續多久？<span class="req">*</span></legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="duration" value="1個月內"><span>1個月內</span></label>
+          <label class="chip"><input type="radio" name="duration" value="1-3個月"><span>1-3個月</span></label>
+          <label class="chip"><input type="radio" name="duration" value="3-6個月"><span>3-6個月</span></label>
+          <label class="chip"><input type="radio" name="duration" value="超過半年"><span>超過半年</span></label>
+        </div>
+        <p class="err" hidden>請選擇</p>
+      </fieldset>
+      <fieldset class="f" id="f-impact">
+        <legend>指甲問題對您的影響程度？<span class="req">*</span></legend>
+        <div class="chips stack">
+          <label class="chip"><input type="radio" name="impact" value="沒影響，純粹美觀問題"><span>沒影響，純粹美觀問題</span></label>
+          <label class="chip"><input type="radio" name="impact" value="影響美觀，偶爾不舒服"><span>影響美觀，偶爾不舒服</span></label>
+          <label class="chip"><input type="radio" name="impact" value="影響日常生活（如疼痛、行走困難）"><span>影響日常生活（如疼痛、行走困難）</span></label>
+          <label class="chip"><input type="radio" name="impact" value="嚴重影響工作或運動"><span>嚴重影響工作或運動</span></label>
+        </div>
+        <p class="err" hidden>請選擇</p>
+      </fieldset>
+      <fieldset class="f" id="f-cause">
+        <legend>您認為指甲問題的主要原因是？<span class="req">*</span></legend>
+        <div class="chips stack">
+          <label class="chip"><input type="radio" name="cause" value="長時間穿不透氣鞋子"><span>長時間穿不透氣鞋子</span></label>
+          <label class="chip"><input type="radio" name="cause" value="長期接觸水或化學物質"><span>長期接觸水或化學物質</span></label>
+          <label class="chip"><input type="radio" name="cause" value="運動傷害或外力撞擊"><span>運動傷害或外力撞擊</span></label>
+          <label class="chip"><input type="radio" name="cause" value="指甲修剪不當"><span>指甲修剪不當</span></label>
+          <label class="chip"><input type="radio" name="cause" value="先天體質或遺傳"><span>先天體質或遺傳</span></label>
+          <label class="chip"><input type="radio" name="cause" value="其他"><span>其他</span></label>
+        </div>
+        <input type="text" class="other" data-other="cause" placeholder="請填寫" hidden>
+        <p class="err" hidden>請選擇</p>
+      </fieldset>
+      <fieldset class="f" id="f-treated">
+        <legend>您是否曾經尋求專業處理？（可複選）<span class="req">*</span></legend>
+        <div class="chips stack">
+          <label class="chip"><input type="checkbox" name="treated" value="沒有"><span>沒有</span></label>
+          <label class="chip"><input type="checkbox" name="treated" value="曾經就醫（皮膚科）"><span>曾經就醫（皮膚科）</span></label>
+          <label class="chip"><input type="checkbox" name="treated" value="吃醫師開的藥"><span>吃醫師開的藥</span></label>
+          <label class="chip"><input type="checkbox" name="treated" value="拔指甲（指甲手術）"><span>拔指甲（指甲手術）</span></label>
+          <label class="chip"><input type="checkbox" name="treated" value="曾經到美甲店或足部護理店"><span>曾經到美甲店或足部護理店</span></label>
+          <label class="chip"><input type="checkbox" name="treated" value="自己嘗試處理（如擦藥、修剪）"><span>自己嘗試處理（如擦藥、修剪）</span></label>
+        </div>
+        <p class="err" hidden>請選擇</p>
+      </fieldset>
+      <fieldset class="f" id="f-times">
+        <legend>方便聯繫時段（諮詢約 30 分鐘）<span class="req">*</span></legend>
+        <p class="hint">選一天和時段後按「加入」，可以加入多組</p>
+        <div class="picker">
+          <p class="pk-label">選擇一天</p>
+          <div class="chips" id="days">
+            <label class="chip"><input type="radio" name="day" id="d2" value="週二"><span>週二</span></label>
+            <label class="chip"><input type="radio" name="day" id="d3" value="週三"><span>週三</span></label>
+            <label class="chip"><input type="radio" name="day" id="d4" value="週四"><span>週四</span></label>
+            <label class="chip"><input type="radio" name="day" id="d5" value="週五"><span>週五</span></label>
+            <label class="chip"><input type="radio" name="day" id="d6" value="週六"><span>週六</span></label>
+            <label class="chip"><input type="radio" name="day" id="d7" value="週日"><span>週日</span></label>
+            <label class="chip"><input type="radio" name="day" id="d8" value="平日皆可"><span>平日皆可</span></label>
+            <label class="chip"><input type="radio" name="day" id="d9" value="假日皆可"><span>假日皆可</span></label>
+          </div>
+          <p class="pk-label" id="slot-label">選擇時段（可複選）</p>
+          <div class="slots">
+            <label class="slot"><input type="checkbox" name="slot" id="sl1" value="10:00–12:00"><span class="sl-t">10:00–12:00</span><span class="sl-dot" aria-hidden="true"></span></label>
+            <label class="slot"><input type="checkbox" name="slot" id="sl2" value="14:00–16:00"><span class="sl-t">14:00–16:00</span><span class="sl-dot" aria-hidden="true"></span></label>
+            <label class="slot"><input type="checkbox" name="slot" id="sl3" value="18:00–22:00"><span class="sl-t">18:00–22:00 <em class="hot">熱門時段</em></span><span class="sl-dot" aria-hidden="true"></span></label>
+          </div>
+          <p class="err pk-err" id="pk-err" hidden></p>
+          <button type="button" class="ghost add-btn" id="addSlot">加入</button>
+        </div>
+        <p class="pk-label">已加入的時段</p>
+        <ul class="picked" id="picked"><li class="empty">還沒有加入，請在上方選好後按「加入」</li></ul>
+        <p class="err" hidden>請至少加入一組時段</p>
+      </fieldset>
+      <div class="f">
+        <label>拍攝指甲狀況照片</label>
+        <p class="hint">讓保養師為您提供更精準的評估與建議，最多 4 張</p>
+        <label class="upload"><input type="file" id="photos" accept="image/*" multiple><span>＋ 新增照片</span></label>
         <div class="thumbs" id="thumbs"></div>
-        <div class="error" id="photoErr">請至少上傳一張指甲照片</div>
+        <p class="err" id="photoMsg" hidden></p>
       </div>
-      <div class="field" data-req>
-        <label class="q">上次做指甲是多久前<span class="req">*</span></label>
-        <div class="chips">
-          <label><input type="radio" name="lastDone" value="3 週內"><span>3 週內</span></label>
-          <label><input type="radio" name="lastDone" value="3–4 週"><span>3–4 週</span></label>
-          <label><input type="radio" name="lastDone" value="超過 4 週"><span>超過 4 週</span></label>
-          <label><input type="radio" name="lastDone" value="第一次做"><span>第一次做</span></label>
-        </div>
-        <div class="error">請選一個</div>
+      <div class="actions">
+        <button type="button" class="ghost" id="back">上一步</button>
+        <button type="submit" class="primary" id="submit">送出</button>
       </div>
-      <div class="field" data-req>
-        <label class="q">有沒有皮膚敏感或凝膠過敏的經驗<span class="req">*</span></label>
-        <div class="chips">
-          <label><input type="radio" name="allergy" value="沒有"><span>沒有</span></label>
-          <label><input type="radio" name="allergy" value="有"><span>有</span></label>
-          <label><input type="radio" name="allergy" value="不確定"><span>不確定</span></label>
-        </div>
-        <div class="error">請選一個</div>
-      </div>
-      <div class="field hidden" id="allergyDetailWrap">
-        <label class="q" for="allergyDetail">簡單說明一下</label>
-        <input type="text" id="allergyDetail" name="allergyDetail" placeholder="例如：之前做完手指周圍發紅發癢">
-      </div>
-    </div>
+      <p class="err" id="send-err" hidden>送出失敗了，請稍後再試，或直接加官方 LINE 跟我們說。</p>
+    </section>
 
-    <div class="card">
-      <h2>想約的時間</h2>
-      <div class="note-box" style="margin-bottom:16px">
-        週二～五 10:00–22:00｜週六日 10:00–18:00｜週一公休
-      </div>
-      <div class="field">
-        <label class="q" for="date">希望日期</label>
-        <p class="hint">選填，有想要的日子再填</p>
-        <input type="date" id="date" name="date">
-        <div class="error" id="dateErr">週一公休，請換一天</div>
-      </div>
-      <div class="field" data-req>
-        <label class="q">方便的時段<span class="req">*</span></label>
-        <p class="hint">可複選</p>
-        <div class="chips">
-          <label><input type="checkbox" name="times" value="平日早上"><span>平日早上</span></label>
-          <label><input type="checkbox" name="times" value="平日下午"><span>平日下午</span></label>
-          <label><input type="checkbox" name="times" value="平日晚上"><span>平日晚上</span></label>
-          <label><input type="checkbox" name="times" value="週六"><span>週六</span></label>
-          <label><input type="checkbox" name="times" value="週日"><span>週日</span></label>
-        </div>
-        <div class="error">請至少選一個</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>最後</h2>
-      <div class="field">
-        <label class="q">從哪裡知道 Cocoon</label>
-        <div class="chips">
-          <label><input type="radio" name="source" value="Instagram"><span>Instagram</span></label>
-          <label><input type="radio" name="source" value="Google 地圖"><span>Google 地圖</span></label>
-          <label><input type="radio" name="source" value="朋友介紹"><span>朋友介紹</span></label>
-          <label><input type="radio" name="source" value="Cocoon 健身學生"><span>我是健身學生</span></label>
-          <label><input type="radio" name="source" value="路過"><span>路過</span></label>
-          <label><input type="radio" name="source" value="其他"><span>其他</span></label>
-        </div>
-      </div>
-      <div class="field">
-        <label class="q" for="note">其他想說的</label>
-        <textarea id="note" name="note"></textarea>
-      </div>
-      <div class="field" data-req>
-        <label class="consent">
-          <input type="checkbox" name="consent" value="同意">
-          <span>我同意 Cocoon 使用以上資料聯繫我、安排預約，資料不會提供給第三方。</span>
-        </label>
-        <div class="error">需要勾選同意才能送出</div>
-      </div>
-    </div>
-
-    <button type="submit" id="btn">送出預約</button>
+    <section class="done" id="done" hidden>
+      <h2>謝謝您的填寫</h2>
+      <p>為了加快安排，請加入官方 LINE，並回覆「<b>已完成表單填寫</b>」，我們會盡快與您確認諮詢時段。</p>
+      <a class="line-btn" href="https://lin.ee/okY2sow" target="_blank" rel="noopener">加入 Cocoon 官方 LINE</a>
+      <p style="font-size:.8rem">LINE ID：@556kfhcb</p>
+      <p class="small">讓我們一起守護您的指甲健康 ✨</p>
+    </section>
   </form>
-
-  <div class="card done hidden" id="done">
-    <h2>收到了，謝謝你 🤍</h2>
-    <p>美甲師會盡快用 LINE 或電話跟你確認時間。<br>有款式參考圖的話，可以直接傳到 Cocoon 官方 LINE。</p>
-    <a class="line-btn" href="https://lin.ee/okY2sow" target="_blank" rel="noopener">加入 Cocoon 官方 LINE</a>
-  </div>
-
-  <footer>Cocoon｜台南市新市區西拉雅大道 278 號｜店門口可停車</footer>
-</div>
+  <p class="foot">Cocoon 繭・台南市新市區西拉雅大道 278 號・營業時間 10:00–22:00</p>
+</main>
 
 <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8XRVGar0Hpi0ocq1KEkP6nweZfGTCPYtohLETBHGDteP2adt-Qc4voH_WS56UW7XV/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8XRVGar0Hpi0ocq1KEkP6nweZfGTCPYtohLETBHGDteP2adt-Qc4voH_WS56UW7XV/exec";
 
-  const form = document.getElementById("f");
-  const val = n => {
-    const els = form.querySelectorAll(`[name="${n}"]`);
-    if (!els.length) return "";
-    if (els[0].type === "checkbox" || els[0].type === "radio")
-      return [...els].filter(e => e.checked).map(e => e.value).join("、");
-    return els[0].value.trim();
-  };
+const $ = s => document.querySelector(s);
+const form = $("#form");
+const val = n => (form.elements[n] && form.elements[n].value || "").trim();
+const many = n => [...form.querySelectorAll(`input[name="${n}"]:checked`)].map(i => i.value);
+const otherBox = n => form.querySelector(`[data-other="${n}"]`);
+const pick = n => [...form.querySelectorAll(`input[name="${n}"]:checked`)].map(i => {
+  if (i.value !== "其他") return i.value;
+  const t = otherBox(n) ? otherBox(n).value.trim() : "";
+  return t ? "其他：" + t : "其他";
+}).join("、");
 
-  // 過敏「有／不確定」才顯示說明欄
-  form.querySelectorAll('[name="allergy"]').forEach(r => r.addEventListener("change", () => {
-    document.getElementById("allergyDetailWrap").classList.toggle("hidden", val("allergy") === "沒有");
-  }));
+function mark(id, bad){ const f=$(id); f.classList.toggle("bad",bad); f.querySelector(":scope > .err").hidden=!bad; return bad; }
 
-  // 週一公休
-  const dateEl = document.getElementById("date");
-  const t = new Date(); dateEl.min = `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,"0")}-${String(t.getDate()).padStart(2,"0")}`;
-  const isMonday = () => dateEl.value && new Date(dateEl.value + "T00:00").getDay() === 1;
-  dateEl.addEventListener("change", () => dateEl.closest(".field").classList.toggle("invalid", isMonday()));
-
-  // 照片：縮到長邊 1600px、轉 JPEG，避免檔案太大
-  const MAX_PHOTOS = 4;
-  let photos = []; // { data: base64, url: 預覽 }
-  const photoField = document.getElementById("photoField");
-  function shrink(file) {
-    return new Promise((ok, fail) => {
-      const img = new Image();
-      img.onload = () => {
-        const s = Math.min(1, 1600 / Math.max(img.width, img.height));
-        const c = document.createElement("canvas");
-        c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
-        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
-        URL.revokeObjectURL(img.src);
-        const url = c.toDataURL("image/jpeg", 0.82);
-        ok({ data: url.split(",")[1], url });
-      };
-      img.onerror = fail;
-      img.src = URL.createObjectURL(file);
-    });
+form.addEventListener("change", e => {
+  const n = e.target.name;
+  if (n && otherBox(n)) {
+    const on = [...form.querySelectorAll(`input[name="${n}"]`)].some(x => x.checked && x.value === "其他");
+    otherBox(n).hidden = !on; if (on && e.target.value === "其他") otherBox(n).focus();
   }
-  function drawThumbs() {
-    const box = document.getElementById("thumbs");
-    box.innerHTML = "";
-    photos.forEach((p, i) => {
-      const d = document.createElement("div"); d.className = "thumb";
-      d.innerHTML = `<img src="${p.url}" alt="指甲照片 ${i+1}"><button type="button" aria-label="刪除">✕</button>`;
-      d.querySelector("button").onclick = () => { photos.splice(i, 1); drawThumbs(); };
-      box.appendChild(d);
-    });
+  clearBad(e);
+});
+function clearBad(e){ const f = e.target.closest(".f.bad"); if (f) mark("#" + f.id, false); }
+form.addEventListener("input", clearBad);
+
+// 照片：縮到長邊 1600px、轉 JPEG
+const MAX_PHOTOS = 4; let photos = [];
+function readURL(file){ return new Promise((ok, fail) => {
+  const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = () => fail(r.error); r.readAsDataURL(file);
+}); }
+function loadImg(src){ return new Promise((ok, fail) => {
+  const img = new Image(); img.onload = () => ok(img); img.onerror = () => fail(new Error("decode")); img.src = src;
+}); }
+async function shrink(file){
+  const src = await readURL(file);
+  const img = await loadImg(src);
+  const w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+  const s = Math.min(1, 1600 / Math.max(w, h));
+  const c = document.createElement("canvas");
+  c.width = Math.max(1, Math.round(w * s)); c.height = Math.max(1, Math.round(h * s));
+  c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+  const url = c.toDataURL("image/jpeg", 0.82);
+  if (url.length < 100) throw new Error("canvas");
+  return { data: url.split(",")[1], url };
+}
+function drawThumbs(busy){
+  const box = $("#thumbs"); box.textContent = "";
+  photos.forEach((p, i) => {
+    const d = document.createElement("div"); d.className = "thumb";
+    const im = document.createElement("img"); im.src = p.url; im.alt = "指甲照片 " + (i + 1);
+    const x = document.createElement("button"); x.type = "button"; x.textContent = "✕"; x.setAttribute("aria-label", "刪除");
+    x.addEventListener("click", () => { photos.splice(i, 1); drawThumbs(); });
+    d.append(im, x); box.appendChild(d);
+  });
+  for (let k = 0; k < (busy || 0); k++) {
+    const d = document.createElement("div"); d.className = "thumb busy"; d.textContent = "處理中…"; box.appendChild(d);
   }
-  document.getElementById("photos").addEventListener("change", async e => {
-    const files = [...e.target.files].slice(0, MAX_PHOTOS - photos.length);
-    if (e.target.files.length > files.length) alert(`最多 ${MAX_PHOTOS} 張喔`);
-    for (const f of files) {
-      try { photos.push(await shrink(f)); } catch { alert("有一張照片讀不到，請換一張試試"); }
-    }
-    e.target.value = "";
-    drawThumbs();
-    if (photos.length) photoField.classList.remove("invalid");
-  });
-
-  function validate() {
-    let first = null;
-    form.querySelectorAll(".field").forEach(f => {
-      let bad = false;
-      if (f.hasAttribute("data-req")) {
-        const inp = f.querySelector("input,textarea");
-        bad = !val(inp.name);
-      }
-      if (f.querySelector("#phone")) bad = !val("line") && !val("phone");
-      if (f.contains(dateEl)) bad = isMonday();
-      if (f === photoField) bad = photos.length === 0;
-      f.classList.toggle("invalid", bad);
-      if (bad && !first) first = f;
-    });
-    if (first) first.scrollIntoView({ behavior: "smooth", block: "center" });
-    return !first;
+  $("#photoMsg").hidden = true;
+}
+$("#photos").addEventListener("change", async e => {
+  const all = [...e.target.files];
+  const files = all.slice(0, MAX_PHOTOS - photos.length);
+  e.target.value = "";
+  if (all.length > files.length) alert(`最多 ${MAX_PHOTOS} 張喔`);
+  let failed = 0;
+  for (let i = 0; i < files.length; i++) {
+    drawThumbs(files.length - i);
+    try { photos.push(await shrink(files[i])); } catch (err) { failed++; }
   }
+  drawThumbs();
+  if (failed) { const m = $("#photoMsg"); m.textContent = `有 ${failed} 張照片讀不到，請換一張，或改用「拍照」上傳`; m.hidden = false; }
+});
 
-  form.addEventListener("change", e => {
-    const f = e.target.closest(".field");
-    if (f && f.classList.contains("invalid") && !f.contains(dateEl)) f.classList.remove("invalid");
+// 時段選擇器
+const picked = [];
+function renderPicked(){
+  const ul = $("#picked"); ul.textContent = "";
+  if(!picked.length){ const li=document.createElement("li"); li.className="empty"; li.textContent="還沒有加入，請在上方選好後按「加入」"; ul.appendChild(li); return; }
+  picked.forEach((p,i)=>{
+    const li=document.createElement("li"); const s=document.createElement("span"); s.textContent=p;
+    const b=document.createElement("button"); b.type="button"; b.textContent="移除"; b.setAttribute("aria-label","移除 "+p);
+    b.addEventListener("click",()=>{ picked.splice(i,1); renderPicked(); });
+    li.append(s,b); ul.appendChild(li);
   });
+}
+function addPending(silent){
+  const day = val("day"); const slots = many("slot");
+  const err = $("#pk-err");
+  if(!day && !slots.length){ if(!silent){ err.textContent="請先選一天和時段"; err.hidden=false; } return false; }
+  const anyDay = day.endsWith("皆可");
+  if(!day || (!slots.length && !anyDay)){ err.textContent = !day ? "請選擇一天" : "請至少選一個時段"; err.hidden=false; return null; }
+  (slots.length ? slots.map(t=>day+" "+t) : [day+"（時段不限）"]).forEach(v=>{ if(!picked.includes(v)) picked.push(v); });
+  err.hidden=true;
+  form.querySelectorAll('input[name="day"],input[name="slot"]').forEach(i=>i.checked=false);
+  $("#slot-label").textContent = "選擇時段（可複選）";
+  renderPicked(); mark("#f-times",false);
+  return true;
+}
+$("#addSlot").addEventListener("click",()=>addPending(false));
+form.querySelectorAll('input[name="day"]').forEach(r=>r.addEventListener("change",()=>{
+  $("#slot-label").textContent = val("day").endsWith("皆可") ? "選擇時段（選填，不選代表都可以）" : "選擇時段（可複選）";
+}));
 
-  form.addEventListener("submit", async e => {
-    e.preventDefault();
-    if (!validate()) return;
-    const btn = document.getElementById("btn");
-    btn.disabled = true; btn.textContent = "送出中…";
-    const data = { formType: "nail", services: "健甲", photos: photos.map(p => p.data) };
-    ["name","line","phone","returning","area","style","condition","lastDone",
-     "allergy","allergyDetail","date","times","source","note","consent"].forEach(k => data[k] = val(k));
-    try {
-      await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
-      form.classList.add("hidden");
-      document.getElementById("done").classList.remove("hidden");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } catch (err) {
-      alert("送出失敗，請檢查網路後再試一次，或直接 LINE 我們");
-      btn.disabled = false; btn.textContent = "送出預約";
-    }
-  });
+function firstBad(list){ const b=list.find(x=>x[0]); if(b){ $(b[1]).scrollIntoView({block:"center",behavior:"smooth"}); } return !b; }
+function checkStep1(){
+  const ph = val("phone").replace(/[\s-]/g,"");
+  return firstBad([
+    [mark("#f-name",!val("name")),"#f-name"],
+    [mark("#f-line",!val("line")),"#f-line"],
+    [mark("#f-phone",!/^09\d{8}$/.test(ph)),"#f-phone"],
+    [mark("#f-gender",!pick("gender")),"#f-gender"],
+    [mark("#f-source",!pick("source")),"#f-source"],
+  ]);
+}
+const STEP2 = ["job","problem","duration","impact","cause","treated"];
+function checkStep2(){ return firstBad(STEP2.map(n => [mark("#f-"+n, !pick(n)), "#f-"+n]).concat([[mark("#f-times", picked.length===0), "#f-times"]])); }
+function show(step){
+  $("#step1").hidden = step!==1; $("#step2").hidden = step!==2; $("#intro").hidden = step!==1;
+  $("#p2").classList.toggle("on", step>=2); form.scrollIntoView({behavior:"smooth"});
+}
+$("#next").addEventListener("click",()=>{ if(checkStep1()) show(2); });
+$("#back").addEventListener("click",()=>show(1));
+form.addEventListener("keydown",e=>{ if(e.key==="Enter" && e.target.tagName==="INPUT" && !$("#step1").hidden){ e.preventDefault(); if(checkStep1()) show(2);} });
+
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  if ($("#step2").hidden) { if (checkStep1()) show(2); return; }
+  if (addPending(true) === null) { $("#f-times").scrollIntoView({block:"center",behavior:"smooth"}); return; }
+  if (!checkStep2()) return;
+  const data = { formType: "nail", name: val("name"), line: val("line"), phone: val("phone"),
+    gender: pick("gender"), source: pick("source"), photos: photos.map(p => p.data) };
+  STEP2.forEach(n => data[n] = pick(n));
+  data.times = picked.join("、");
+  const btn = $("#submit"); btn.disabled = true; btn.textContent = "送出中…"; $("#send-err").hidden = true;
+  try {
+    await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", headers: {"Content-Type":"text/plain;charset=utf-8"}, body: JSON.stringify(data) });
+    $("#step2").hidden = true; $(".progress").hidden = true;
+    $("#done").hidden = false; form.scrollIntoView({behavior:"smooth"});
+  } catch (err) {
+    $("#send-err").hidden = false;
+  } finally { btn.disabled = false; btn.textContent = "送出"; }
+});
 </script>
+
 </body>
 </html>
